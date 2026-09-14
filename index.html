@@ -80,11 +80,12 @@ nav.mainnav button.on{background:var(--em);color:#fff;font-weight:700}
 #floatMenu button svg{width:17px;height:17px}
 .ticker{background:linear-gradient(135deg,var(--em),var(--em2));color:#eaf6f0;overflow:hidden;display:none}
 .ticker.on{display:block}
-.ticker div{display:flex;gap:44px;white-space:nowrap;padding:8px 0;animation:tick 34s linear infinite;width:max-content}
+.ticker div{display:flex;gap:0;white-space:nowrap;padding:6px 0;animation:tick 26s linear infinite;width:max-content}
+.ticker span{font-size:12px}
 .ticker:hover div{animation-play-state:paused}
 .ticker span{display:inline-flex;align-items:center;gap:9px;font-size:13px}
 .ticker span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold)}
-@keyframes tick{to{transform:translateX(-50%)}}
+@keyframes tick{from{transform:translateX(100vw)}to{transform:translateX(-100%)}}
 [dir="rtl"] .ticker div{animation-name:tickR}
 @keyframes tickR{to{transform:translateX(50%)}}
 main{padding:16px 0 30px}
@@ -1322,7 +1323,7 @@ function renderAnn(){
   $('#ticker').classList.toggle('on',banners.length>0);
   if(banners.length){
     const seg=banners.map(r=>'<span>'+esc(r[0])+'</span>').join('');
-    $('#tickTrack').innerHTML=seg+seg;
+    $('#tickTrack').innerHTML=act.map(function(r){return '<span>'+esc(r[0])+'</span>';}).join('<span style="opacity:.5">✦</span>');
   }
   $('#annNav').style.display=act.length?'':'none';
   $('#annDock').innerHTML=act.slice(0,2).map(r=>'<button class="dockchip" type="button"><span class="dot2"></span><b>'+esc(t('announcement'))+'</b><span>'+esc(r[0])+'</span></button>').join('');
