@@ -129,7 +129,8 @@ main{padding:16px 0 30px}
 /* 3D dial beside the Gregorian clock */
 .hdtRow{display:flex;align-items:center;gap:13px}
 .hdtTxt{min-width:0}
-.dialWrap{width:112px;height:112px;flex-shrink:0;filter:drop-shadow(0 10px 20px rgba(0,0,0,.45))}
+.dialWrap{width:112px;height:112px;flex-shrink:0;filter:drop-shadow(0 10px 20px rgba(0,0,0,.45));display:none}
+.dialWrap.on{display:block}
 .dialWrap svg{width:100%;height:100%;display:block}
 .hpills{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:7px 12px;border-radius:11px;min-width:92px}
@@ -147,7 +148,8 @@ main{padding:16px 0 30px}
 .hinfo .htip::after{content:"";position:absolute;top:100%;right:14px;border:6px solid transparent;border-top-color:#0f1a14}
 .hinfo:hover .htip,.hinfo.show .htip{opacity:1}.hinfo.show{background:rgba(212,175,55,.3)}
 /* moon — steady, no floating */
-.moonbox{width:104px;height:104px;flex-shrink:0;filter:drop-shadow(0 12px 22px rgba(0,0,0,.5))}
+.moonbox{width:104px;height:104px;flex-shrink:0;filter:drop-shadow(0 12px 22px rgba(0,0,0,.5));display:none}
+.moonbox.on{display:block}
 .moonbox svg{width:100%;height:100%;display:block;animation:moonIn .8s cubic-bezier(.3,1.2,.4,1) both}
 @keyframes moonIn{from{opacity:0;transform:scale(.7) rotate(-10deg)}to{opacity:1;transform:none}}
 .hadith{margin-top:14px;background:var(--glass);backdrop-filter:blur(12px);border:1px solid rgba(212,175,55,.4);border-radius:15px;padding:13px 16px;display:flex;gap:13px;align-items:center;box-shadow:var(--shadow)}
@@ -864,10 +866,18 @@ if(window.visualViewport)visualViewport.addEventListener('resize',fitViewport);
 function applyShowToggles(){
   const s=D.S||{};
   const off=v=>String(v==null?'':v).trim().toLowerCase()==='no';
+  const connected=!!DATA;              /* admin data present */
   const moon=document.getElementById('moonBox');
   const dial=document.getElementById('dialWrap');
-  if(moon)moon.style.display=off(s.show_moon)?'none':'';
-  if(dial)dial.style.display=off(s.show_clock)?'none':'';
+  if(moon){
+    const show=connected?!off(s.show_moon):true;   /* no admin → show (your old default) */
+    moon.classList.toggle('on',show);
+    if(show&&!moon.innerHTML)drawMoon();
+  }
+  if(dial){
+    const show=connected?!off(s.show_clock):true;
+    dial.classList.toggle('on',show);
+  }
 }
 
 /* ===== language ===== */
