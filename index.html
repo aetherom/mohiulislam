@@ -14,7 +14,10 @@
 <meta property="og:description" content="Daily prayer times, Jumu'ah, Ramadan, Madrasa and community information.">
 <meta name="twitter:card" content="summary_large_image">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://script.google.com https://script.googleusercontent.com https://cdn.jsdelivr.net; frame-src https://www.google.com https://maps.google.com; base-uri 'none'; form-action 'none'; object-src 'none'">
-<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="preconnect" href="https://script.google.com">
+<link rel="preconnect" href="https://script.googleusercontent.com">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://maps.google.com">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Mosque","name":"Jamia Masjid Mohi-Ul-Islam Siddiqia","address":{"@type":"PostalAddress","streetAddress":"124 Barking Road","addressLocality":"London","postalCode":"E6 3BD","addressCountry":"GB"},"openingHours":"Mo-Su 00:00-23:59"}
 </script>
@@ -1003,10 +1006,17 @@ async function loadAll(){
   /* highlight the current month on the dial ring */
   (function(){const ring=document.getElementById('monthRing');if(ring){const tx=ring.querySelectorAll('text');const idx=(new Date().getMonth()+1)%12;tx.forEach(function(x,i){x.setAttribute('fill',i===idx?'#ffd27a':'#e6d8a8');x.setAttribute('opacity',i===idx?'1':'.5')})}})();
   clockTick();setInterval(clockTick,1000);hijriRender();drawMoon();
+  try{const c=sessionStorage.getItem('mqData');if(c){DATA=JSON.parse(c);prep();renderAll();}}catch(e){}
   if(CFG.APP){
-    try{const r=await fetch(CFG.APP,{headers:{'Accept':'application/json'}});const j=await r.json();DATA=(j&&j.data)?j.data:j;}catch(e){DATA=null}
-  }
-  prep();renderAll();setTimeout(loadHadith,350);
+    try{
+      const r=await fetch(CFG.APP,{headers:{'Accept':'application/json'}});
+      const j=await r.json();
+      const nd=(j&&j.data)?j.data:j;
+      try{sessionStorage.setItem('mqData',JSON.stringify(nd));}catch(e){}
+      DATA=nd;prep();renderAll();
+    }catch(e){ if(!DATA){DATA=null;renderAll();} }
+  }else if(!DATA){renderAll();}
+  setTimeout(loadHadith,350);
   $$('#langDD button').forEach(x=>x.classList.toggle('onl',x.dataset.lang===LANG));
 }
 function prep(){
@@ -1021,13 +1031,21 @@ function prep(){
 }
 
 /* ===== geometry / map (keyless embed, dynamically bound to admin address) ===== */
-let CUR_ADDR=DEFAULT_ADDR;
+
+let CUR_ADDR=DEFAULT_ADDR,MAP_URL='';
 function setGeo(){
   const c=(D.CON||[])[0];
   if(c&&c[2])CUR_ADDR=c[2];
   $('#dirBtn').href='https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(CUR_ADDR);
   $('#mapBtn').href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(CUR_ADDR);
-  $('#mapFrame').src='https://maps.google.com/maps?q='+encodeURIComponent(CUR_ADDR)+'&z=15&output=embed';
+  MAP_URL='https://maps.google.com/maps?q='+encodeURIComponent(CUR_ADDR)+'&z=15&output=embed';
+  const f=$('#mapFrame');
+  if('IntersectionObserver' in window){
+    const io=new IntersectionObserver(function(es){
+      if(es.some(function(e){return e.isIntersecting})){ if(!f.src)f.src=MAP_URL; io.disconnect(); }
+    },{rootMargin:'500px'});
+    io.observe(f);
+  }else{ f.src=MAP_URL; }
 }
 
 /* ===== render ===== */
