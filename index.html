@@ -83,11 +83,10 @@ nav.mainnav button.on{background:var(--em);color:#fff;font-weight:700}
 #floatMenu button svg{width:17px;height:17px}
 .ticker{background:linear-gradient(135deg,var(--em),var(--em2));color:#eaf6f0;overflow:hidden;display:none}
 .ticker.on{display:block}
-.ticker div{display:flex;gap:0;white-space:nowrap;padding:6px 0;animation:tick 26s linear infinite;width:max-content}
-.ticker span{font-size:12px}
+.ticker div{display:flex;gap:0;white-space:nowrap;padding:4px 0;animation:tick 20s linear infinite;width:max-content}
 .ticker:hover div{animation-play-state:paused}
-.ticker span{display:inline-flex;align-items:center;gap:9px;font-size:13px}
-.ticker span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.ticker span{display:inline-flex;align-items:center;gap:8px;font-size:11px}
+.ticker span::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--gold)}
 @keyframes tick{from{transform:translateX(100vw)}to{transform:translateX(-100%)}}
 [dir="rtl"] .ticker div{animation-name:tickR}
 @keyframes tickR{to{transform:translateX(50%)}}
@@ -1364,7 +1363,12 @@ function hash(s){let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(
 const THEMES=['emerald-arch','golden-manuscript','night-noor','geometric-noor','minaret-glow'];
 function schedulePopup(){
   const iso=isoOf(new Date());
-  const cand=(annActive()).find(r=>String(r[2]||'').toLowerCase()==='yes');
+  const pops=annActive().filter(r=>String(r[2]||'').trim().toLowerCase()==='yes');
+  if(!pops.length)return;
+  let idx=0;
+  try{idx=Number(sessionStorage.getItem('mqPopIdx')||0)%pops.length;}catch(e){}
+  try{sessionStorage.setItem('mqPopIdx',String((idx+1)%pops.length));}catch(e){}
+  const cand=pops[idx];
   if(!cand)return;
   if((D.S&&String(D.S.popup_enabled).toLowerCase()==='no'))return;
   const key='mqPop:'+hash(String(cand[0]));
@@ -1378,6 +1382,7 @@ function schedulePopup(){
     let done=false;
     const close=()=>{if(done)return;done=true;STO.s(key,iso);wrap.classList.remove('on')};
     pop.querySelector('.apop-x').addEventListener('click',close);
+    wrap.addEventListener('click',function(e){if(e.target===wrap)close();});
     const secs=Math.max(5,parseInt((D.S&&D.S.popup_automin_seconds)||'12',10)||12);
     setTimeout(close,secs*1000);
   },1400);
