@@ -13,11 +13,11 @@
 <meta property="og:title" content="Mohi-Ul-Islam Siddiqia – Prayer Times & Community">
 <meta property="og:description" content="Daily prayer times, Jumu'ah, Ramadan, Madrasa and community information.">
 <meta name="twitter:card" content="summary_large_image">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://script.google.com https://script.googleusercontent.com https://cdn.jsdelivr.net; frame-src https://www.google.com https://maps.google.com; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://script.google.com https://script.googleusercontent.com https://cdn.jsdelivr.net; frame-src https://www.google.com https://maps.google.com; base-uri 'none'; form-action 'none'; object-src 'none'">
 <link rel="preconnect" href="https://script.google.com">
 <link rel="preconnect" href="https://script.googleusercontent.com">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="preconnect" href="https://maps.google.com">
+
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Mosque","name":"Jamia Masjid Mohi-Ul-Islam Siddiqia","address":{"@type":"PostalAddress","streetAddress":"124 Barking Road","addressLocality":"London","postalCode":"E6 3BD","addressCountry":"GB"},"openingHours":"Mo-Su 00:00-23:59"}
 </script>
@@ -92,15 +92,9 @@ nav.mainnav button.on{background:var(--em);color:#fff;font-weight:700}
 @keyframes tickR{to{transform:translateX(50%)}}
 main{padding:16px 0 30px}
 .page{display:none}
-.page.on{display:block;transform-origin:50% 100%;animation:genieDown .5s cubic-bezier(.2,.85,.25,1) both}
-.page.bye{display:block;pointer-events:none;transform-origin:50% 100%;animation:genieDownOut .3s ease both}
-.page.up{transform-origin:50% 0}
-.page.up.on{animation:genieUp .5s cubic-bezier(.2,.85,.25,1) both}
-.page.up.bye{animation:genieUpOut .3s ease both}
-@keyframes genieDown{0%{opacity:0;transform:translateY(36px) scale(.72);filter:blur(7px)}55%{filter:blur(0)}100%{opacity:1;transform:none;filter:none}}
-@keyframes genieDownOut{0%{opacity:1;transform:none}100%{opacity:0;transform:translateY(46px) scale(.55);filter:blur(9px)}}
-@keyframes genieUp{0%{opacity:0;transform:translateY(-36px) scale(.72);filter:blur(7px)}55%{filter:blur(0)}100%{opacity:1;transform:none;filter:none}}
-@keyframes genieUpOut{0%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-46px) scale(.55);filter:blur(9px)}}
+.page.on{display:block;animation:pageIn .12s ease-out both}
+.page.bye{display:none!important}
+@keyframes pageIn{from{opacity:0}to{opacity:1}}
 @keyframes alivePop{0%{transform:scale(1)}30%{transform:scale(1.5) rotate(-10deg)}60%{transform:scale(.85) rotate(8deg)}100%{transform:scale(1)}}
 @keyframes aliveBurst{0%{transform:scale(.4);opacity:.9}100%{transform:scale(4.5);opacity:0}}
 @keyframes drawIn{to{stroke-dashoffset:0}}
@@ -606,8 +600,9 @@ html.dark .tg-body h4{color:#9fd4b4}
         <h2 class="stitle" id="calTitle" data-i18n="monthly">Monthly timetable</h2>
         <div class="sp"></div>
         <button class="tbtn" id="calFull"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg><span data-i18n="full">Full screen</span></button>
-        <button class="tbtn" id="calCsv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 21h16"/></svg><span data-i18n="download">CSV</span></button>
-        <button class="tbtn" id="calRamadan" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg><span data-i18n="ramadan_csv">Ramadan CSV</span></button>
+        <button class="tbtn" id="calCsv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg><span data-i18n="download">Download</span></button>
+        <button class="tbtn" id="calRamadanCsv" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg><span data-i18n="ramadan_csv">Ramadan calendar</span></button>
+
       </div>
       <div class="calwrap" id="calWrap">
         <table>
@@ -706,7 +701,7 @@ html.dark .tg-body h4{color:#9fd4b4}
 
 <div id="pt" aria-hidden="true"><div class="pti" id="ptIco"></div><div class="ptl" id="ptLab"></div></div>
 <div id="apWrap"><div class="apop" id="apop"></div></div>
-
+<div id="toast"></div>
 <div id="termsGate" role="dialog" aria-modal="true" aria-label="Terms of use">
   <div class="tg-card">
     <div class="tg-head" data-i18n="terms">Terms of use</div>
@@ -837,6 +832,7 @@ const CFG={APP:"https://script.google.com/macros/s/AKfycbzQ_OiAEAU0wDk2KeAYw5J6o
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const STO={g:k=>{try{return localStorage.getItem(k)}catch(e){return null}},s:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const safeUrl=u=>{u=String(u==null?'':u).trim();return /^(https?:|mailto:|tel:)/i.test(u)?u:'#'};
 const pad2=n=>('0'+n).slice(-2);
 const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const PRKEYS=['fajr','dhuhr','asr','maghrib','isha'];
@@ -846,9 +842,9 @@ const DEFAULT_ADDR='124 Barking Road, London E6 3BD';
 
 /* ===== i18n ===== */
 const I18N={
-en:{skip:"Skip to content",jamia:"JAMIA MASJID · LONDON E6",darkTheme:"Dark theme",lightTheme:"Light theme",language:"Language",donate:"Donate",nav_home:"Home",nav_madrasa:"Madrasa",nav_ann:"Announcements",nav_about:"About",nav_contact:"Contact",nav_faq:"FAQ",notice_data:"Live times are not loading right now — please check back shortly.",next_prayer:"Next prayer",hijri:"Hijri",hijri_info:"The Islamic (Hijri) date — the moon shows today's phase of the lunar month.",today_prayers:"Today's prayers",monthly:"Monthly timetable",full:"Full screen",download:"CSV",ramadan_csv:"Ramadan CSV",date:"Date",fajr:"Fajr",dhuhr:"Dhuhr",asr:"Asr",maghrib:"Maghrib",isha:"Isha",suhoor:"Suhoor ends",iftar:"Iftar",azan:"Azan",jamat:"Jamat",find_us:"Find us",open24:"Open to all",directions:"Get directions",gmaps:"Google Maps",support:"Support the mosque",donate_now:"Donate now",madrasa:"Madrasa & learning",about:"About us",contact:"Contact",contact_note:"Send us a message — this opens your email app. Nothing is stored on this website.",your_name:"Your name",your_email:"Your email",your_msg:"Your message",send:"Send email",information:"Information",follow:"Follow us",faq:"Frequently asked questions",charity:"Registered Charity No",privacy:"Privacy Policy",terms:"Terms of use",faq2:"FAQ",cookie_pref:"Cookie Preferences",footer_safe:"This site stores no card details and no personal data. Donations are processed by trusted third parties.",close:"Close",donate_title:"Donate — safe & secure",p1t:"No personal data collected",p1:"This website does not collect, store or process personal data. The contact form opens your own email application — nothing is stored on our servers.",p2t:"Cookies & local storage",p2:"Only your preferences (theme, language) and cookie choice are kept on your device. No advertising or third-party tracking. Change anytime via \"Cookie Preferences\" in the footer.",p3t:"Donations",p3:"Donation links lead to external payment providers. We never see or store card details.",p4t:"Your rights (UK GDPR)",p4:"No personal data is processed by this website. For anything else, contact the mosque directly.",t1t:"Prayer times & content",t1:"Times and content are published by the mosque and may change. Confirm important dates (e.g. Ramadan) with the mosque.",terms_accept:"I accept",cookie_text:"We use only essential cookies to remember your preferences (theme, language). No tracking.",cookie_ok:"Accept",cookie_ess:"Essential only",announcement:"Announcement",jumuah:"Jumu'ah",taraweeh:"Taraweeh",donate_default:"Your donations keep the mosque open for daily prayers, madrasa classes and community support. May Allah reward you."},
-ur:{skip:"مواد پر جائیں",jamia:"جامع مسجد · لندن E6",darkTheme:"ڈارک تھیم",lightTheme:"لائٹ تھیم",language:"زبان",donate:"عطیہ دیں",nav_home:"ہوم",nav_madrasa:"مدرسہ",nav_ann:"اعلانات",nav_about:"ہمارے بارے میں",nav_contact:"رابطہ",nav_faq:"سوالات",notice_data:"لائیو اوقات اس وقت لوڈ نہیں ہو رہے — کچھ دیر بعد دوبارہ کوشش کریں۔",next_prayer:"اگلی نماز",hijri:"ہجری",hijri_info:"اسلامی (ہجری) تاریخ — چاند قمری مہینے کا آج کا مرحلہ دکھاتا ہے۔",today_prayers:"آج کی نمازیں",monthly:"ماہانہ وقت‌نامہ",full:"فل اسکرین",download:"CSV",ramadan_csv:"رمضان CSV",date:"تاریخ",fajr:"فجر",dhuhr:"ظہر",asr:"عصر",maghrib:"مغرب",isha:"عشاء",suhoor:"سحری کا اختتام",iftar:"افطار",azan:"اذان",jamat:"جماعت",find_us:"ہمیں تلاش کریں",open24:"سب کے لیے کھلا",directions:"راستہ حاصل کریں",gmaps:"گوگل نقشہ",support:"مسجد کی مدد کریں",donate_now:"ابھی عطیہ دیں",madrasa:"مدرسہ و تعلیم",about:"ہمارے بارے میں",contact:"رابطہ",contact_note:"ہمیں پیغام بھیجیں — یہ آپ کی ای میل ایپ کھولتا ہے۔ اس ویب سائٹ پر کچھ محفوظ نہیں ہوتا۔",your_name:"آپ کا نام",your_email:"آپ کا ای میل",your_msg:"آپ کا پیغام",send:"ای میل بھیجیں",information:"معلومات",follow:"ہمیں فالو کریں",faq:"اکثر پوچھے گئے سوالات",charity:"رجسٹرڈ چیریٹی نمبر",privacy:"پرائیویسی پالیسی",terms:"استعمال کی شرائط",faq2:"سوالات",cookie_pref:"کوکی ترجیحات",footer_safe:"یہ سائٹ کارڈ کی تفصیلات یا ذاتی ڈیٹا محفوظ نہیں کرتا۔ عطیات قابلِ اعتماد فریقِ ثالث کے ذریعے پروسیس ہوتے ہیں۔",close:"بند کریں",donate_title:"عطیہ — محفوظ و مطمئن",p1t:"کوئی ذاتی ڈیٹا جمع نہیں",p1:"یہ ویب سائٹ ذاتی ڈیٹا جمع، محفوظ یا پروسیس نہیں کرتی۔ رابطہ فارم آپ کے اپنے ای میل ایپلیکیشن کو کھولتا ہے — ہمارے سرورز پر کچھ محفوظ نہیں ہوتا۔",p2t:"کوکیز و مقامی اسٹوریج",p2:"صرف آپ کی ترجیحات (تھیم، زبان) اور کوکی انتخاب آپ کے ڈیوائس پر محفوظ رہتے ہیں۔ کوئی اشتہار یا ٹریکنگ نہیں۔ فوٹر میں \"کوکی ترجیحات\" سے تبدیل کریں۔",p3t:"عطیات",p3:"عطیہ لنکس بیرونی ادائیگی فراہم کنندگان تک جاتے ہیں۔ ہم کارڈ کی تفصیلات کبھی نہیں دیکھتے یا محفوظ نہیں کرتے۔",p4t:"آپ کے حقوق (UK GDPR)",p4:"یہ ویب سائٹ ذاتی ڈیٹا پروسیس نہیں کرتی۔ کسی اور معاملے کے لیے براہِ راست مسجد سے رابطہ کریں۔",t1t:"نماز کے اوقات و مواد",t1:"اوقات و مواد مسجد کی جانب سے شائع کیے جاتے ہیں اور بدل سکتے ہیں۔ اہم تاریخیں (مثلاً رمضان) مسجد سے تصدیق کریں۔",terms_accept:"میں قبول کرتا ہوں",cookie_text:"ہم صرف ضروری کوکیز استعمال کرتے ہیں تاکہ آپ کی ترجیحات (تھیم، زبان) یاد رہیں۔ کوئی ٹریکنگ نہیں۔",cookie_ok:"قبول کریں",cookie_ess:"صرف ضروری",announcement:"اعلان",jumuah:"جمعہ",taraweeh:"ترویح",donate_default:"آپ کے عطیات مسجد کو روزانہ نمازوں، مدرسہ کی کلاسوں اور معاشرتی مدد کے لیے جاری رکھتے ہیں۔ اللہ آپ کو اجر دے۔"},
-bn:{skip:"মূল বিষয়বস্তুতে যান",jamia:"জামে মসজিদ · লন্ডন E৬",darkTheme:"ডার্ক থিম",lightTheme:"লাইট থিম",language:"ভাষা",donate:"দান করুন",nav_home:"হোম",nav_madrasa:"মাদ্রাসা",nav_ann:"ঘোষণা",nav_about:"আমাদের সম্পর্কে",nav_contact:"যোগাযোগ",nav_faq:"প্রশ্নোত্তর",notice_data:"লাইভ সময় এই মুহূর্তে লোড হচ্ছে না — কিছুক্ষণ পরে আবার চেষ্টা করুন।",next_prayer:"পরবর্তী নামাজ",hijri:"হিজরি",hijri_info:"ইসলামি (হিজরি) তারিখ — চাঁদ চন্দ্র মাসের আজকের অবস্থা দেখায়।",today_prayers:"আজকের নামাজসমূহ",monthly:"মাসিক সময়সূচি",full:"ফুল স্ক্রিন",download:"CSV",ramadan_csv:"রমজান CSV",date:"তারিখ",fajr:"ফজর",dhuhr:"যোহর",asr:"আসর",maghrib:"মাগরিব",isha:"এশা",suhoor:"সেহরি শেষ",iftar:"ইফতার",azan:"আজান",jamat:"জামাত",find_us:"আমাদের খুঁজুন",open24:"সবার জন্য উন্মুক্ত",directions:"পথনির্দেশ নিন",gmaps:"গুগল ম্যাপ",support:"মসজিদকে সহায়তা করুন",donate_now:"এখনই দান করুন",madrasa:"মাদ্রাসা ও শিক্ষা",about:"আমাদের সম্পর্কে",contact:"যোগাযোগ",contact_note:"আমাদের বার্তা পাঠান — এটি আপনার ইমেইল অ্যাপ খুলবে। এই ওয়েবসাইটে কিছুই সংরক্ষিত হয় না।",your_name:"আপনার নাম",your_email:"আপনার ইমেইল",your_msg:"আপনার বার্তা",send:"ইমেইল পাঠান",information:"তথ্য",follow:"আমাদের ফলো করুন",faq:"সাধারণ জিজ্ঞাসা",charity:"নিবন্ধিত চ্যারিটি নম্বর",privacy:"প্রাইভেসি পলিসি",terms:"ব্যবহারের শর্তাবলী",faq2:"প্রশ্নোত্তর",cookie_pref:"কুকি পছন্দ",footer_safe:"এই সাইট কার্ডের তথ্য বা ব্যক্তিগত ডেটা সংরক্ষণ করে না। দান বিশ্বস্ত তৃতীয় পক্ষের মাধ্যমে প্রক্রিয়া করা হয়।",close:"বন্ধ করুন",donate_title:"দান — নিরাপদ ও সুরক্ষিত",p1t:"কোনো ব্যক্তিগত ডেটা সংগ্রহ নেই",p1:"এই ওয়েবসাইট ব্যক্তিগত ডেটা সংগ্রহ, সংরক্ষণ বা প্রক্রিয়া করে না। যোগাযোগ ফর্ম আপনার নিজের ইমেইল অ্যাপ খোলে — আমাদের সার্ভারে কিছুই সংরক্ষিত হয় না।",p2t:"কুকি ও লোকাল স্টোরেজ",p2:"শুধু আপনার পছন্দ (থিম, ভাষা) ও কুকি পছন্দ আপনার ডিভাইসে রাখা হয়। কোনো বিজ্ঞাপন বা ট্র্যাকিং নেই। ফুটারের \"কুকি পছন্দ\" থেকে পরিবর্তন করুন।",p3t:"দান",p3:"দানের লিঙ্ক বাহ্যিক পেমেন্ট প্রোভাইডারে যায়। আমরা কার্ডের তথ্য কখনো দেখি বা সংরক্ষণ করি না।",p4t:"আপনার অধিকার (UK GDPR)",p4:"এই ওয়েবসাইট ব্যক্তিগত ডেটা প্রক্রিয়া করে না। অন্য কোনো বিষয়ে সরাসরি মসজিদের সাথে যোগাযোগ করুন।",t1t:"নামাজের সময় ও বিষয়বস্তু",t1:"সময় ও বিষয়বস্তু মসজিদ কর্তৃক প্রকাশিত এবং পরিবর্তনশীল। গুরুত্বপূর্ণ তারিখ (যেমন রমজান) মসজিদের সাথে নিশ্চিত করুন।",terms_accept:"আমি সম্মত",cookie_text:"আমরা শুধু অপরিহার্য কুকি ব্যবহার করি যাতে আপনার পছন্দ (থিম, ভাষা) মনে থাকে। কোনো ট্র্যাকিং নেই।",cookie_ok:"সম্মত",cookie_ess:"শুধু অপরিহার্য",announcement:"ঘোষণা",jumuah:"জুমা",taraweeh:"তারাবিহ",donate_default:"আপনার দান দৈনিক নামাজ, মাদ্রাসা ক্লাস ও কমিউনিটি সহায়তার জন্য মসজিদ চালু রাখে। আল্লাহ আপনাকে প্রতিদান দিন।"}};
+en:{skip:"Skip to content",jamia:"JAMIA MASJID · LONDON E6",darkTheme:"Dark theme",lightTheme:"Light theme",language:"Language",donate:"Donate",nav_home:"Home",nav_madrasa:"Madrasa",nav_ann:"Announcements",nav_about:"About",nav_contact:"Contact",nav_faq:"FAQ",notice_data:"Live times are not loading right now — please check back shortly.",next_prayer:"Next prayer",hijri:"Hijri",hijri_info:"The Islamic (Hijri) date — the moon shows today's phase of the lunar month.",today_prayers:"Today's prayers",monthly:"Monthly timetable",full:"Full screen",download:"Download",ramadan_csv:"Ramadan calendar",date:"Date",fajr:"Fajr",dhuhr:"Dhuhr",asr:"Asr",maghrib:"Maghrib",isha:"Isha",suhoor:"Suhoor ends",iftar:"Iftar",azan:"Azan",jamat:"Jamat",find_us:"Find us",open24:"Open to all",directions:"Get directions",gmaps:"Google Maps",support:"Support the mosque",donate_now:"Donate now",madrasa:"Madrasa & learning",about:"About us",contact:"Contact",contact_note:"Send us a message — this opens your email app. Nothing is stored on this website.",your_name:"Your name",your_email:"Your email",your_msg:"Your message",send:"Send email",information:"Information",follow:"Follow us",faq:"Frequently asked questions",charity:"Registered Charity No",privacy:"Privacy Policy",terms:"Terms of use",faq2:"FAQ",cookie_pref:"Cookie Preferences",footer_safe:"This site stores no card details and no personal data. Donations are processed by trusted third parties.",close:"Close",donate_title:"Donate — safe & secure",p1t:"No personal data collected",p1:"This website does not collect, store or process personal data. The contact form opens your own email application — nothing is stored on our servers.",p2t:"Cookies & local storage",p2:"Only your preferences (theme, language) and cookie choice are kept on your device. No advertising or third-party tracking. Change anytime via \"Cookie Preferences\" in the footer.",p3t:"Donations",p3:"Donation links lead to external payment providers. We never see or store card details.",p4t:"Your rights (UK GDPR)",p4:"No personal data is processed by this website. For anything else, contact the mosque directly.",t1t:"Prayer times & content",t1:"Times and content are published by the mosque and may change. Confirm important dates (e.g. Ramadan) with the mosque.",terms_accept:"I accept",cookie_text:"We use only essential cookies to remember your preferences (theme, language). No tracking.",cookie_ok:"Accept",cookie_ess:"Essential only",announcement:"Announcement",jumuah:"Jumu'ah",taraweeh:"Taraweeh",donate_default:"Your donations keep the mosque open for daily prayers, madrasa classes and community support. May Allah reward you."},
+ur:{skip:"مواد پر جائیں",jamia:"جامع مسجد · لندن E6",darkTheme:"ڈارک تھیم",lightTheme:"لائٹ تھیم",language:"زبان",donate:"عطیہ دیں",nav_home:"ہوم",nav_madrasa:"مدرسہ",nav_ann:"اعلانات",nav_about:"ہمارے بارے میں",nav_contact:"رابطہ",nav_faq:"سوالات",notice_data:"لائیو اوقات اس وقت لوڈ نہیں ہو رہے — کچھ دیر بعد دوبارہ کوشش کریں۔",next_prayer:"اگلی نماز",hijri:"ہجری",hijri_info:"اسلامی (ہجری) تاریخ — چاند قمری مہینے کا آج کا مرحلہ دکھاتا ہے۔",today_prayers:"آج کی نمازیں",monthly:"ماہانہ وقت‌نامہ",full:"فل اسکرین",download:"ڈاؤن لوڈ",ramadan_csv:"رمضان کیلنڈر",date:"تاریخ",fajr:"فجر",dhuhr:"ظہر",asr:"عصر",maghrib:"مغرب",isha:"عشاء",suhoor:"سحری کا اختتام",iftar:"افطار",azan:"اذان",jamat:"جماعت",find_us:"ہمیں تلاش کریں",open24:"سب کے لیے کھلا",directions:"راستہ حاصل کریں",gmaps:"گوگل نقشہ",support:"مسجد کی مدد کریں",donate_now:"ابھی عطیہ دیں",madrasa:"مدرسہ و تعلیم",about:"ہمارے بارے میں",contact:"رابطہ",contact_note:"ہمیں پیغام بھیجیں — یہ آپ کی ای میل ایپ کھولتا ہے۔ اس ویب سائٹ پر کچھ محفوظ نہیں ہوتا۔",your_name:"آپ کا نام",your_email:"آپ کا ای میل",your_msg:"آپ کا پیغام",send:"ای میل بھیجیں",information:"معلومات",follow:"ہمیں فالو کریں",faq:"اکثر پوچھے گئے سوالات",charity:"رجسٹرڈ چیریٹی نمبر",privacy:"پرائیویسی پالیسی",terms:"استعمال کی شرائط",faq2:"سوالات",cookie_pref:"کوکی ترجیحات",footer_safe:"یہ سائٹ کارڈ کی تفصیلات یا ذاتی ڈیٹا محفوظ نہیں کرتا۔ عطیات قابلِ اعتماد فریقِ ثالث کے ذریعے پروسیس ہوتے ہیں۔",close:"بند کریں",donate_title:"عطیہ — محفوظ و مطمئن",p1t:"کوئی ذاتی ڈیٹا جمع نہیں",p1:"یہ ویب سائٹ ذاتی ڈیٹا جمع، محفوظ یا پروسیس نہیں کرتی۔ رابطہ فارم آپ کے اپنے ای میل ایپلیکیشن کو کھولتا ہے — ہمارے سرورز پر کچھ محفوظ نہیں ہوتا۔",p2t:"کوکیز و مقامی اسٹوریج",p2:"صرف آپ کی ترجیحات (تھیم، زبان) اور کوکی انتخاب آپ کے ڈیوائس پر محفوظ رہتے ہیں۔ کوئی اشتہار یا ٹریکنگ نہیں۔ فوٹر میں \"کوکی ترجیحات\" سے تبدیل کریں۔",p3t:"عطیات",p3:"عطیہ لنکس بیرونی ادائیگی فراہم کنندگان تک جاتے ہیں۔ ہم کارڈ کی تفصیلات کبھی نہیں دیکھتے یا محفوظ نہیں کرتے۔",p4t:"آپ کے حقوق (UK GDPR)",p4:"یہ ویب سائٹ ذاتی ڈیٹا پروسیس نہیں کرتی۔ کسی اور معاملے کے لیے براہِ راست مسجد سے رابطہ کریں۔",t1t:"نماز کے اوقات و مواد",t1:"اوقات و مواد مسجد کی جانب سے شائع کیے جاتے ہیں اور بدل سکتے ہیں۔ اہم تاریخیں (مثلاً رمضان) مسجد سے تصدیق کریں۔",terms_accept:"میں قبول کرتا ہوں",cookie_text:"ہم صرف ضروری کوکیز استعمال کرتے ہیں تاکہ آپ کی ترجیحات (تھیم، زبان) یاد رہیں۔ کوئی ٹریکنگ نہیں۔",cookie_ok:"قبول کریں",cookie_ess:"صرف ضروری",announcement:"اعلان",jumuah:"جمعہ",taraweeh:"ترویح",donate_default:"آپ کے عطیات مسجد کو روزانہ نمازوں، مدرسہ کی کلاسوں اور معاشرتی مدد کے لیے جاری رکھتے ہیں۔ اللہ آپ کو اجر دے۔"},
+bn:{skip:"মূল বিষয়বস্তুতে যান",jamia:"জামে মসজিদ · লন্ডন E৬",darkTheme:"ডার্ক থিম",lightTheme:"লাইট থিম",language:"ভাষা",donate:"দান করুন",nav_home:"হোম",nav_madrasa:"মাদ্রাসা",nav_ann:"ঘোষণা",nav_about:"আমাদের সম্পর্কে",nav_contact:"যোগাযোগ",nav_faq:"প্রশ্নোত্তর",notice_data:"লাইভ সময় এই মুহূর্তে লোড হচ্ছে না — কিছুক্ষণ পরে আবার চেষ্টা করুন।",next_prayer:"পরবর্তী নামাজ",hijri:"হিজরি",hijri_info:"ইসলামি (হিজরি) তারিখ — চাঁদ চন্দ্র মাসের আজকের অবস্থা দেখায়।",today_prayers:"আজকের নামাজসমূহ",monthly:"মাসিক সময়সূচি",full:"ফুল স্ক্রিন",download:"ডাউনলোড",ramadan_csv:"রমজান ক্যালেন্ডার",date:"তারিখ",fajr:"ফজর",dhuhr:"যোহর",asr:"আসর",maghrib:"মাগরিব",isha:"এশা",suhoor:"সেহরি শেষ",iftar:"ইফতার",azan:"আজান",jamat:"জামাত",find_us:"আমাদের খুঁজুন",open24:"সবার জন্য উন্মুক্ত",directions:"পথনির্দেশ নিন",gmaps:"গুগল ম্যাপ",support:"মসজিদকে সহায়তা করুন",donate_now:"এখনই দান করুন",madrasa:"মাদ্রাসা ও শিক্ষা",about:"আমাদের সম্পর্কে",contact:"যোগাযোগ",contact_note:"আমাদের বার্তা পাঠান — এটি আপনার ইমেইল অ্যাপ খুলবে। এই ওয়েবসাইটে কিছুই সংরক্ষিত হয় না।",your_name:"আপনার নাম",your_email:"আপনার ইমেইল",your_msg:"আপনার বার্তা",send:"ইমেইল পাঠান",information:"তথ্য",follow:"আমাদের ফলো করুন",faq:"সাধারণ জিজ্ঞাসা",charity:"নিবন্ধিত চ্যারিটি নম্বর",privacy:"প্রাইভেসি পলিসি",terms:"ব্যবহারের শর্তাবলী",faq2:"প্রশ্নোত্তর",cookie_pref:"কুকি পছন্দ",footer_safe:"এই সাইট কার্ডের তথ্য বা ব্যক্তিগত ডেটা সংরক্ষণ করে না। দান বিশ্বস্ত তৃতীয় পক্ষের মাধ্যমে প্রক্রিয়া করা হয়।",close:"বন্ধ করুন",donate_title:"দান — নিরাপদ ও সুরক্ষিত",p1t:"কোনো ব্যক্তিগত ডেটা সংগ্রহ নেই",p1:"এই ওয়েবসাইট ব্যক্তিগত ডেটা সংগ্রহ, সংরক্ষণ বা প্রক্রিয়া করে না। যোগাযোগ ফর্ম আপনার নিজের ইমেইল অ্যাপ খোলে — আমাদের সার্ভারে কিছুই সংরক্ষিত হয় না।",p2t:"কুকি ও লোকাল স্টোরেজ",p2:"শুধু আপনার পছন্দ (থিম, ভাষা) ও কুকি পছন্দ আপনার ডিভাইসে রাখা হয়। কোনো বিজ্ঞাপন বা ট্র্যাকিং নেই। ফুটারের \"কুকি পছন্দ\" থেকে পরিবর্তন করুন।",p3t:"দান",p3:"দানের লিঙ্ক বাহ্যিক পেমেন্ট প্রোভাইডারে যায়। আমরা কার্ডের তথ্য কখনো দেখি বা সংরক্ষণ করি না।",p4t:"আপনার অধিকার (UK GDPR)",p4:"এই ওয়েবসাইট ব্যক্তিগত ডেটা প্রক্রিয়া করে না। অন্য কোনো বিষয়ে সরাসরি মসজিদের সাথে যোগাযোগ করুন।",t1t:"নামাজের সময় ও বিষয়বস্তু",t1:"সময় ও বিষয়বস্তু মসজিদ কর্তৃক প্রকাশিত এবং পরিবর্তনশীল। গুরুত্বপূর্ণ তারিখ (যেমন রমজান) মসজিদের সাথে নিশ্চিত করুন।",terms_accept:"আমি সম্মত",cookie_text:"আমরা শুধু অপরিহার্য কুকি ব্যবহার করি যাতে আপনার পছন্দ (থিম, ভাষা) মনে থাকে। কোনো ট্র্যাকিং নেই।",cookie_ok:"সম্মত",cookie_ess:"শুধু অপরিহার্য",announcement:"ঘোষণা",jumuah:"জুমা",taraweeh:"তারাবিহ",donate_default:"আপনার দান দৈনিক নামাজ, মাদ্রাসা ক্লাস ও কমিউনিটি সহায়তার জন্য মসজিদ চালু রাখে। আল্লাহ আপনাকে প্রতিদান দিন।"}};
 
 let LANG=STO.g('mqLang')||'en';if(!I18N[LANG])LANG='en';
 let T=I18N[LANG],DATA=null,D={};
@@ -861,23 +857,7 @@ window.addEventListener('resize',fitViewport);
 window.addEventListener('orientationchange',fitViewport);
 if(window.visualViewport)visualViewport.addEventListener('resize',fitViewport);
 
-/* ===== admin show/hide toggles — show_moon / show_clock ===== */
-function applyShowToggles(){
-  const s=D.S||{};
-  const off=v=>String(v==null?'':v).trim().toLowerCase()==='no';
-  const connected=!!DATA;              /* admin data present */
-  const moon=document.getElementById('moonBox');
-  const dial=document.getElementById('dialWrap');
-  if(moon){
-    const show=connected?!off(s.show_moon):true;   /* no admin → show (your old default) */
-    moon.classList.toggle('on',show);
-    if(show&&!moon.innerHTML)drawMoon();
-  }
-  if(dial){
-    const show=connected?!off(s.show_clock):true;
-    dial.classList.toggle('on',show);
-  }
-}
+
 
 /* ===== language ===== */
 function applyI18n(){
@@ -888,7 +868,8 @@ function applyI18n(){
   const tip=$('#themeTip');if(tip)tip.textContent=t(document.documentElement.classList.contains('dark')?'lightTheme':'darkTheme');
 }
 function refreshDynamic(){
-  hijriRender();drawMoon();applyShowToggles();
+  hijriRender();applyShowToggles();
+  if(CUR_HN)hadithLoadFor(CUR_HN,LANG);
   if(DATA&&Object.keys(D).length){buildCalendar();renderGrid();renderPills();renderContact();renderContent();renderAnn();calTitles();}
 }
 function setLang(l,fx){
@@ -923,14 +904,14 @@ function popIcon(btn){
 }
 function goPage(p,srcBtn){
   const nxt=$('#pg-'+p);if(!nxt)return;
-  const up=!!(srcBtn&&srcBtn.closest('header'));
   $$('#mainNav button,#floatMenu button,#mtabs button').forEach(b=>b.classList.toggle('on',b.dataset.page===p));
   if(srcBtn)popIcon(srcBtn);
   closeFloat();
   const cur=document.querySelector('.page.on');
-  if(cur===nxt)return;
-  if(cur){cur.classList.remove('on');cur.classList.toggle('up',up);cur.classList.add('bye');setTimeout(()=>cur.classList.remove('bye'),320)}
-  nxt.classList.remove('bye');void nxt.offsetWidth;nxt.classList.toggle('up',up);nxt.classList.add('on');
+  if(cur===nxt){window.scrollTo({top:0,behavior:'smooth'});return;}
+  if(cur)cur.classList.remove('on');
+  nxt.classList.remove('bye','up');
+  nxt.classList.add('on');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 /* one delegated listener — tabs ALWAYS respond */
@@ -976,7 +957,7 @@ if(!STO.g('mqCookie'))setTimeout(()=>$('#cookie').classList.add('on'),1800);
  $('#donateBtn').addEventListener('click',()=>{fillDonate();mopen('donateModal')});
  $('#donateBtn2').addEventListener('click',()=>{fillDonate();mopen('donateModal')});
 function fillDonate(){
-  const links=(D.DL||[]).map(r=>'<a class="dlink" href="'+esc(r[2])+'" target="_blank" rel="noopener"><strong>'+esc(r[0])+'</strong><span>'+esc(r[1]||r[2])+'</span></a>').join('');
+  const links=(D.DL||[]).map(r=>'<a class="dlink" href="'+safeUrl(r[2])+'" target="_blank" rel="noopener"><strong>'+esc(r[0])+'</strong><span>'+esc(r[1]||r[2])+'</span></a>').join('');
   $('#donateLinks').innerHTML=links;
   const b=(D.BANK||[])[0];
   $('#bankBox').innerHTML=b?('<div class="bank">'+esc('Account Name: '+b[0]+'\nBank: '+(b[1]||'—')+'\nSort Code: '+(b[2]||'—')+'\nAccount No: '+(b[3]||'—')+(b[4]?'\nReference: '+b[4]:''))+'</div>'):'';
@@ -1000,7 +981,7 @@ document.addEventListener('click',e=>{if(!$('#langWrap').contains(e.target))$('#
 
 /* ===== time helpers ===== */
 function pMin(s){if(s==null||s==='')return null;const m=/^(\d{1,2})[:.](\d{2})/.exec(String(s).trim());return m?(+m[1])*60+(+m[2]):null}
-function fT(s){const v=pMin(s);if(v==null)return esc(s||'—');let h=Math.floor(v/60),m=v%60;const ap=h>=12?'PM':'AM';h=h%12||12;return h+':'+pad2(m)+' '+ap}
+function fT(s){const v=pMin(s);if(v==null)return (s&&String(s))||'-';let h=Math.floor(v/60),m=v%60;const ap=h>=12?'PM':'AM';h=h%12||12;return h+':'+pad2(m)+' '+ap}
 const isoOf=d=>d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());
 function rowDate(r,mi){
   const y=new Date().getFullYear();
@@ -1009,22 +990,45 @@ function rowDate(r,mi){
 }
 
 /* ===== data layer ===== */
+function applyShowToggles(){
+  const s=D.S||{};
+  const off=v=>String(v==null?'':v).trim().toLowerCase()==='no';
+  const known=!!DATA;
+  const moon=document.getElementById('moonBox');
+  const dial=document.getElementById('dialWrap');
+  const showMoon=known&&!off(s.show_moon);
+  const showClock=known&&!off(s.show_clock);
+  if(moon){
+    moon.classList.toggle('on',showMoon);
+    if(showMoon&&!moon.innerHTML)drawMoon();
+  }
+  if(dial)dial.classList.toggle('on',showClock);
+}
 async function loadAll(){
   $('#year').textContent=new Date().getFullYear();
   setGeo();setDonateText();buildFloat();applyI18n();
   /* highlight the current month on the dial ring */
   (function(){const ring=document.getElementById('monthRing');if(ring){const tx=ring.querySelectorAll('text');const idx=(new Date().getMonth()+1)%12;tx.forEach(function(x,i){x.setAttribute('fill',i===idx?'#ffd27a':'#e6d8a8');x.setAttribute('opacity',i===idx?'1':'.5')})}})();
-  clockTick();setInterval(clockTick,1000);hijriRender();drawMoon();
-  try{const c=sessionStorage.getItem('mqData');if(c){DATA=JSON.parse(c);prep();renderAll();}}catch(e){}
+  clockTick();setInterval(clockTick,1000);hijriRender();
+  try{
+    const c=sessionStorage.getItem('mqData');
+    if(c){
+      const bag=JSON.parse(c);
+      if(bag&&bag._t&&(Date.now()-bag._t<5*60*1000)){DATA=bag.d;prep();renderAll();applyShowToggles();}
+    }
+  }catch(e){}
   if(CFG.APP){
     try{
       const r=await fetch(CFG.APP,{headers:{'Accept':'application/json'}});
       const j=await r.json();
       const nd=(j&&j.data)?j.data:j;
-      try{sessionStorage.setItem('mqData',JSON.stringify(nd));}catch(e){}
-      DATA=nd;prep();renderAll();
-    }catch(e){ if(!DATA){DATA=null;renderAll();} }
-  }else if(!DATA){renderAll();}
+      try{sessionStorage.setItem('mqData',JSON.stringify({_t:Date.now(),d:nd}));}catch(e){}
+      DATA=nd;prep();renderAll();applyShowToggles();
+    }catch(e){ if(!DATA){DATA=null;renderAll();applyShowToggles();} }
+  }else{
+    renderAll();applyShowToggles();
+  }
+  schedulePopup();
   setTimeout(loadHadith,350);
   $$('#langDD button').forEach(x=>x.classList.toggle('onl',x.dataset.lang===LANG));
 }
@@ -1069,8 +1073,9 @@ function renderAll(){
   mRows=(DATA&&D.MONTHS[MONTHS[mi]])||[];
   ramInMonth=mRows.some(r=>{const d=rowDate(r,mi);return D.RAM&&D.RAM[isoOf(d)]});
   $('#thS1').style.display=$('#thI1').style.display=$('#thS2').style.display=$('#thI2').style.display=ramInMonth?'':'none';
-  calTitles();buildCalendar();renderGrid();renderPills();renderContact();renderContent();renderAnn();schedulePopup();setDonateText();
-  $('#calRamadan').style.display=ramInMonth?'':'none';
+  calTitles();buildCalendar();renderGrid();renderPills();setGeo();renderContact();renderContent();renderAnn();setDonateText();
+  $('#calRamadanCsv').style.display=ramInMonth?'':'none';
+  $('#calCsv').style.display='';
 }
 function extrasFor(iso,pIdx){
   return (D.EXJ||[]).filter(r=>String(r[0]).toLowerCase()===PR_EN[pIdx].toLowerCase()&&(!r[1]||r[1]<=iso)&&(!r[2]||iso<=r[2]))
@@ -1094,31 +1099,231 @@ function buildCalendar(){
 }
  $('#calFull').addEventListener('click',()=>{$('#calTitleFx').textContent=$('#calTitle').textContent;$('#calFx').classList.add('on')});
  $('#calFxClose').addEventListener('click',()=>$('#calFx').classList.remove('on'));
- $('#calCsv').addEventListener('click',()=>{
-  if(!mRows.length)return;
-  const head=['Date','Year','Fajr Azan','Fajr Jamat','Dhuhr Azan','Dhuhr Jamat','Asr Azan','Asr Jamat','Maghrib Azan','Maghrib Jamat','Isha Azan','Isha Jamat'];
-  if(ramInMonth)head.push('Suhoor ends','Iftar');
-  const lines=[head.join(',')].concat(mRows.map(r=>{
-    let c=r.map(x=>'"'+String(x==null?'':x).replace(/"/g,'""')+'"');
-    if(ramInMonth){const iso=isoOf(rowDate(r,mi)),rm=(D.RAM||{})[iso]||{};c.push('"'+(rm.s||'')+'"','"'+(rm.i||'')+'"')}
-    return c.join(',');
-  }));
-  dl('prayer-times-'+MONTHS[mi]+'.csv',lines.join('\n'));
-});
- $('#calRamadan').addEventListener('click',()=>{
-  const rows=mRows.map(r=>{
-    const iso=isoOf(rowDate(r,mi)),rm=(D.RAM||{})[iso];
-    if(!rm)return null;
-    return '"'+iso+'","'+(rm.s||'')+'","'+(rm.i||'')+'"';
-  }).filter(Boolean);
-  const lines=[['Date','Suhoor ends','Iftar'].join(',')].concat(rows);
-  dl('ramadan.csv',lines.join('\n'));
-});
-function dl(name,content){
-  const a=document.createElement('a');
-  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(content);a.download=name;
-  document.body.appendChild(a);a.click();a.remove();
+var _pdfPromise=null;
+function loadJsPDF(){
+  if(window.jspdf&&window.jspdf.jsPDF)return Promise.resolve(window.jspdf.jsPDF);
+  if(_pdfPromise)return _pdfPromise;
+  _pdfPromise=new Promise(function(res,rej){
+    var s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js';
+    s.onload=function(){
+      var JS=window.jspdf&&window.jspdf.jsPDF;
+      if(!JS){_pdfPromise=null;rej(new Error('PDF engine failed to initialise.'));return}
+      res(JS);
+    };
+    s.onerror=function(){_pdfPromise=null;rej(new Error('Could not load PDF engine - check connection.'))};
+    document.head.appendChild(s);
+  });
+  return _pdfPromise;
 }
+/* Every string passes through TX() — jsPDF never sees undefined, empty, or non-Latin chars */
+function TX(doc,v,x,y,opts){
+  if(v===undefined||v===null)return;
+  var s=String(v).replace(/[^\x00-\xFF]/g,'-');
+  if(!s.trim())return;
+  x=Number(x);y=Number(y);
+  if(isNaN(x)||isNaN(y))return;
+  try{
+    doc.text(s,x,y,opts||{});
+  }catch(e){
+    try{doc.text([s],x,y,opts||{});}
+    catch(e2){console.warn('TX skipped a cell:',s);}
+  }
+}
+/* ---------- PDF helpers ---------- */
+function pdfHeader(doc,title){
+  doc.setFillColor(10,54,34);doc.rect(0,0,doc.internal.pageSize.getWidth(),26,'F');
+  doc.setDrawColor(212,175,55);doc.setLineWidth(1);doc.line(0,26,doc.internal.pageSize.getWidth(),26);
+  try{doc.addImage(CREST_DATAURL,'PNG',12,5,16,16);}catch(e){}
+  doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(13);
+  TX(doc,'MOHI-UL-ISLAM SIDDIQIA',32,12);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');
+  TX(doc,'Jamia Masjid - 124 Barking Road, London E6 3BD',32,18);
+  doc.setFont('helvetica','bold');doc.setFontSize(11);
+  TX(doc,title,doc.internal.pageSize.getWidth()-12,16,{align:'right'});
+  doc.setTextColor(30,30,30);
+}
+var BISMILLAH_IMG='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAAAKCAYAAABOFkUIAAAAr0lEQVR4nO2WsQ3DIBBEX4YLaKELSFrTBLS0AU1LmyGgrU0gaYcOKShQ1CBIkPIdOUbZJUBV/kd2svOdGWMQEUJECBEhRIQQEe1Za/1a653W+s62730AppRaa63XWs75+74P4Jzjuu6qqpTiOq89gbLWOk3THAtgWRZ4nudZ170BYIxBYIxZA0DM/PlwzvmqqlIWIPt+b+bXWs75OM97AqSU8jzPcxzH8zzP81trHWOM/38APgH4D+ALgF8A/gLoB/wFwaYr+ABpg0grkYAAAAASUVORK5CYII=';
+function pdfBismillah(doc,y){
+  try{doc.addImage(BISMILLAH_IMG,'PNG',88,y-6,34,10);}catch(e){}
+}
+const CREST_DATAURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9wAAAAo0lEQVR4nKWTwQ3DIAxFn9k/pM5QhWidoUO0DlGHSDtDByhtgA5R6pBFihT58xL8JfnGK4IKv+OqPuDzPYDqvhqA8EtV/VFVx3X98jyWAALgnHMAoLUE4J1zVZWqKgBgjPkGoCzLAs/znHMAwPd9AHDObRCamFFVHcdRFF0FsNaa86WqXlVV5ZxTKSUppZxzDqCUUgNoGSTOuWetNf8B0zSuAXjvH3vPsyybB2CM8R3AH4CqKlVVxhhLKP8GgP8Av9EDLPq1BYEAAAAASUVORK5CYII=';
+function pdfDuaBlock(doc,y,label,en){
+  doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(10,54,34);
+  TX(doc,label,14,y);
+  doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.setTextColor(90,90,90);
+  TX(doc,en,14,y+6);
+  doc.setTextColor(30,30,30);
+  return y+12;
+}
+function monthPDF(){
+  const jsPDF=window.jspdf.jsPDF;
+  const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  pdfHeader(doc,'Monthly Timetable - '+MONTHS[mi]+' '+new Date().getFullYear());
+  const PN=['Fajr','Dhuhr','Asr','Maghrib','Isha'];
+  let y=42;
+  /* column map: x=13 start · Date 14 · Day 14 · each prayer 28 (Azan 14 + Jamat 14) → total 168 */
+  const drawHead=function(yy){
+    doc.setFillColor(10,54,34);doc.rect(12,yy-4,168,11,'F');
+    doc.setTextColor(255,255,255);
+    doc.setFont('helvetica','bold');doc.setFontSize(7.5);
+    let x=13;
+    TX(doc,'Date',x+7,yy+2,{align:'center'});
+    TX(doc,'Day',x+21,yy+2,{align:'center'});
+    x+=28;
+    for(let p=0;p<5;p++){TX(doc,PN[p],x+14,yy+2,{align:'center'});x+=28;}
+    doc.setFont('helvetica','normal');doc.setFontSize(6.3);
+    x=13;
+    TX(doc,'Azan',x+7,yy+6.5,{align:'center'});
+    TX(doc,'Jamat',x+21,yy+6.5,{align:'center'});
+    x+=28;
+    for(let p=0;p<5;p++){TX(doc,'Azan',x+7,yy+6.5,{align:'center'});TX(doc,'Jamat',x+21,yy+6.5,{align:'center'});x+=28;}
+    doc.setTextColor(30,30,30);
+    return yy+13;
+  };
+  y=drawHead(y);
+  doc.setFont('helvetica','normal');
+  const rows=mRows.slice().sort((a,b)=>(rowDate(a,mi)-rowDate(b,mi)));
+  const todayISO=isoOf(new Date());
+  rows.forEach(function(r,ri){
+    if(y>275){doc.addPage();y=drawHead(38);}
+    const d=rowDate(r,mi);
+    const isTod=isoOf(d)===todayISO;
+    if(isTod){doc.setFillColor(250,243,220);doc.rect(12,y-4,168,6,'F');}
+    if(ri%2===1&&!isTod){doc.setFillColor(244,248,245);doc.rect(12,y-4,168,6,'F');}
+    doc.setFontSize(7.5);
+    let x=13;
+    TX(doc,String(r[0]),x+7,y,{align:'center'});
+    TX(doc,d.toLocaleDateString('en-GB',{weekday:'short'}),x+21,y,{align:'center'});
+    x+=28;
+    for(let p=0;p<5;p++){
+      TX(doc,fT(r[2+p*2]),x+7,y,{align:'center'});
+      TX(doc,fT(r[3+p*2]),x+21,y,{align:'center'});
+      x+=28;
+    }
+    if(isTod){doc.setDrawColor(212,175,55);doc.setLineWidth(.4);doc.rect(12,y-4,168,6);}
+    y+=6;
+  });
+  doc.setFontSize(7);doc.setTextColor(120,120,120);
+  TX(doc,'Times may change - confirm with the mosque. Generated '+new Date().toLocaleDateString('en-GB'),105,290,{align:'center'});
+  doc.save('MohiUlIslam-'+MONTHS[mi]+'-'+new Date().getFullYear()+'.pdf');
+}
+function ramadanPDF(){
+  const jsPDF=window.jspdf.jsPDF;
+  const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  pdfHeader(doc,'Ramadan Timetable - '+new Date().getFullYear());
+  const PN=['Fajr','Dhuhr','Asr','Maghrib','Isha'];
+  let y=34;
+  pdfBismillah(doc,y);y+=8;
+  doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(10,54,34);
+  TX(doc,'Suhoor & Iftar Duas',14,y);y+=5;
+  y=pdfDuaBlock(doc,y,'Suhoor Dua','Wa bisawmi ghadin nawaytu min shahri Ramadan - "I intend to keep the fast for tomorrow in the month of Ramadan"');
+  y=pdfDuaBlock(doc,y,'Iftar Dua','Allahumma inni laka sumtu wa bika aamantu wa alayka tawakkaltu wa ala rizqika aftartu (Abu Dawud)');
+  y+=2;
+  /* column map: x=11 start · Date 12 · Day 12 · 5 prayers × 26 (Azan 13 + Jamat 13) · Iftar 13 · Taraweeh 12 → total 180 */
+  const drawHead=function(yy){
+    doc.setFillColor(10,54,34);doc.rect(10,yy-4,180,11,'F');
+    doc.setTextColor(255,255,255);
+    doc.setFont('helvetica','bold');doc.setFontSize(7);
+    let x=11;
+    TX(doc,'Date',x+6,yy+2,{align:'center'});
+    TX(doc,'Day',x+18,yy+2,{align:'center'});
+    x+=24;
+    for(let p=0;p<5;p++){TX(doc,PN[p],x+13,yy+2,{align:'center'});x+=26;}
+    TX(doc,'Iftar',x+6.5,yy+2,{align:'center'});
+    TX(doc,'Taraweeh',x+19,yy+2,{align:'center'});
+    doc.setFont('helvetica','normal');doc.setFontSize(6.3);
+    x=11+24;
+    for(let p=0;p<5;p++){TX(doc,'Azan',x+6.5,yy+6.5,{align:'center'});TX(doc,'Jamat',x+19.5,yy+6.5,{align:'center'});x+=26;}
+    doc.setTextColor(30,30,30);
+    return yy+13;
+  };
+  y=drawHead(y);
+  const todayISO=isoOf(new Date());
+  doc.setFont('helvetica','normal');
+  const rows=mRows.slice().sort((a,b)=>(rowDate(a,mi)-rowDate(b,mi)));
+  rows.forEach(function(r,ri){
+    if(y>275){doc.addPage();y=drawHead(38);}
+    const d=rowDate(r,mi),iso=isoOf(d);
+    const rm=(D.RAM||{})[iso]||{};
+    const isTod=iso===todayISO;
+    if(isTod){doc.setFillColor(212,175,55);doc.rect(10,y-4,180,6,'F');}
+    else if(rm.s||rm.i){doc.setFillColor(232,240,232);doc.rect(10,y-4,180,6,'F');}
+    else if(ri%2===1){doc.setFillColor(244,248,245);doc.rect(10,y-4,180,6,'F');}
+    doc.setFontSize(6.8);
+    let x=11;
+    TX(doc,String(r[0]),x+6,y,{align:'center'});
+    TX(doc,d.toLocaleDateString('en-GB',{weekday:'short'}),x+18,y,{align:'center'});
+    x+=24;
+    for(let p=0;p<5;p++){
+      TX(doc,fT(r[2+p*2]),x+6.5,y,{align:'center'});
+      TX(doc,fT(r[3+p*2]),x+19.5,y,{align:'center'});
+      x+=26;
+    }
+    TX(doc,fT(rm.i),x+6.5,y,{align:'center'});
+    let tar='';
+    (D.TAR||[]).forEach(function(tr){if(String(tr[0]).slice(0,10)===iso)tar=fT(tr[1]);});
+    TX(doc,tar,x+19,y,{align:'center'});
+    if(isTod){doc.setDrawColor(160,120,0);doc.setLineWidth(.4);doc.rect(10,y-4,180,6);}
+    doc.setTextColor(30,30,30);
+    y+=6;
+  });
+  doc.setFontSize(7);doc.setTextColor(120,120,120);
+  TX(doc,'Highlighted rows include Suhoor ends & Iftar. Iftar also = Maghrib. Times may change - confirm with the mosque.',105,290,{align:'center'});
+  doc.save('MohiUlIslam-Ramadan-'+new Date().getFullYear()+'.pdf');
+}
+function wordFallback(ramadan){
+  try{
+    const rows=mRows.slice().sort((a,b)=>(rowDate(a,mi)-rowDate(b,mi)));
+    const todayISO=isoOf(new Date());
+    let head='<tr><th style="background:#0A3622;color:#ffffff">Date</th><th style="background:#0A3622;color:#ffffff">Day</th>';
+    for(let p=0;p<5;p++)head+='<th colspan="2" style="background:#0A3622;color:#ffffff">'+PR_EN[p]+'</th>';
+    if(ramadan)head+='<th style="background:#5a4a00;color:#ffe08a">Iftar</th>';
+    head+='</tr><tr>';
+    for(let p=0;p<6;p++)head+='<th style="background:#124a2f;color:#ffffff;font-size:8pt">Azan</th><th style="background:#124a2f;color:#ffffff;font-size:8pt">Jamat</th>';
+    if(ramadan)head+='<th></th>';
+    head+='</tr>';
+    const body=rows.map(function(r){
+      const d=rowDate(r,mi),iso=isoOf(d),tod=iso===todayISO;
+      const bg=tod?' style="background:#faf3dc"':'';
+      let line='<tr'+bg+'><td'+bg+'><b>'+esc(r[0])+'</b></td><td>'+d.toLocaleDateString('en-GB',{weekday:'short'})+'</td>';
+      for(let p=0;p<5;p++)line+='<td>'+fT(r[2+p*2])+'</td><td><b>'+fT(r[3+p*2])+'</b></td>';
+      if(ramadan)line+='<td><b>'+fT(((D.RAM||{})[iso]||{}).i)+'</b></td>';
+      return line+'</tr>';
+    }).join('');
+    const html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word">'
+      +'<head><meta charset="utf-8"><title>Prayer Times</title></head>'
+      +'<body style="font-family:Arial,sans-serif">'
+      +'<h2 style="color:#0A3622;margin:0">MOHI-UL-ISLAM SIDDIQIA</h2>'
+      +'<p style="color:#666666;margin:2px 0 10px">Jamia Masjid &middot; 124 Barking Road, London E6 3BD</p>'
+      +'<h3 style="color:#0A3622">'+(ramadan?'Ramadan Timetable - ':'Monthly Timetable - ')+MONTHS[mi]+' '+new Date().getFullYear()+'</h3>'
+      +'<table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse;font-size:9pt;text-align:center">'+head+body+'</table>'
+      +'<p style="color:#888888;font-size:8pt;margin-top:10px">Times may change - confirm with the mosque. Generated '+new Date().toLocaleDateString('en-GB')+'</p>'
+      +'</body></html>';
+    const blob=new Blob(['\ufeff'+html],{type:'application/msword'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='MohiUlIslam-'+(ramadan?'Ramadan-':'')+MONTHS[mi]+'-'+new Date().getFullYear()+'.doc';
+    document.body.appendChild(a);a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},800);
+    toast('Word document downloaded instead.','info');
+  }catch(e){toast('Download failed - please try again.','err');}
+}
+/* ---------- wire buttons ---------- */
+ $('#calCsv').addEventListener('click',function(){
+  if(!mRows.length)return;
+  toast('Preparing PDF…','info');
+  loadJsPDF().then(function(){
+    try{monthPDF();}catch(e){console.error('PDF ERROR:',e);wordFallback(false);}
+  }).catch(function(e){console.error('ENGINE ERROR:',e);wordFallback(false);});
+});
+ $('#calRamadanCsv').addEventListener('click',function(){
+  if(!mRows.length)return;
+  toast('Preparing Ramadan PDF…','info');
+  loadJsPDF().then(function(){
+    try{ramadanPDF();}catch(e){console.error('PDF ERROR:',e);wordFallback(true);}
+  }).catch(function(e){console.error('ENGINE ERROR:',e);wordFallback(true);});
+});
 
 /* ===== today grid + next prayer + countdown + live dial hands ===== */
 function todayRow(){
@@ -1322,7 +1527,7 @@ function renderContact(){
   if(c[3])$('#charityNo').textContent=c[3];
   const socs=D.SOC||[];
   $('#socWrap').style.display=socs.length?'block':'none';
-  $('#socGrid').innerHTML=socs.map(r=>'<a class="soc" href="'+esc(r[1])+'" target="_blank" rel="noopener">'+esc(r[0])+'</a>').join('');
+  $('#socGrid').innerHTML=socs.map(r=>'<a class="soc" href="'+safeUrl(r[1])+'" target="_blank" rel="noopener">'+esc(r[0])+'</a>').join('');
   $('#cform').onsubmit=e=>{
     e.preventDefault();
     const f=e.target,to=(c&&c[1])||'';
@@ -1336,7 +1541,11 @@ function renderContent(){
   $('#madrasaBody').innerHTML=(D.MAD||[]).map(blkHTML).join('')||'<p style="color:var(--muted)">—</p>';
   $('#aboutBody').innerHTML=(D.ABT||[]).map(blkHTML).join('')||'<p style="color:var(--muted)">—</p>';
   $('#faqBody').innerHTML=(D.FAQ||[]).map(r=>'<div class="faqi"><button type="button">'+esc(r[0])+'<span>▾</span></button><div><p>'+esc(r[1]||'').replace(/\n/g,'<br>')+'</p></div></div>').join('');
-  $$('#faqBody .faqi button').forEach(b=>b.addEventListener('click',()=>b.parentElement.classList.toggle('on')));
+  $$('#faqBody .faqi button').forEach(b=>b.addEventListener('click',function(){
+    const item=b.parentElement,open=item.classList.contains('on');
+    $$('#faqBody .faqi').forEach(x=>x.classList.remove('on'));
+    if(!open)item.classList.add('on');
+  }));
 }
 
 /* ===== announcements ===== */
@@ -1362,64 +1571,100 @@ function renderAnn(){
 function hash(s){let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))>>>0;return h.toString(36)}
 const THEMES=['emerald-arch','golden-manuscript','night-noor','geometric-noor','minaret-glow'];
 function schedulePopup(){
-  const iso=isoOf(new Date());
+  if(POPUP_LIVE)return;                       /* guard: this popup system can only ever start ONCE per refresh */
   const pops=annActive().filter(r=>String(r[2]||'').trim().toLowerCase()==='yes');
   if(!pops.length)return;
-  let idx=0;
-  try{idx=Number(sessionStorage.getItem('mqPopIdx')||0)%pops.length;}catch(e){}
-  try{sessionStorage.setItem('mqPopIdx',String((idx+1)%pops.length));}catch(e){}
-  const cand=pops[idx];
-  if(!cand)return;
-  if((D.S&&String(D.S.popup_enabled).toLowerCase()==='no'))return;
-  const key='mqPop:'+hash(String(cand[0]));
-  if(STO.g(key)===iso)return;
-  setTimeout(()=>{
+  if(D.S&&String(D.S.popup_enabled).trim().toLowerCase()==='no')return;
+  POPUP_LIVE=true;
+  setTimeout(function(){
     const wrap=$('#apWrap'),pop=$('#apop');
-    const th=THEMES.includes(String(cand[3]))?'pth-'+cand[3]:'pth-emerald-arch';
-    pop.className='apop '+th;
-    pop.innerHTML='<button class="apop-x" type="button">✕</button><div class="apop-crest"><svg viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="rgba(255,255,255,.06)"/><path d="M32 15.5C25.2 21.1 21.8 25.5 21.8 30.3h20.4c0-4.8-3.4-9.2-10.2-14.8z" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M17.5 30v18M46.5 30v18M13 48h38" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></div><div class="apop-title">'+esc(t('announcement'))+'</div><div class="apop-orn"></div><div class="apop-body">'+esc(cand[0]).replace(/\n/g,'<br>')+'</div>';
+    let i=0,timer=null,done=false;
+    /* readable auto-advance: grows with text length — 9s floor, 22s cap, never blinks away */
+    function readMs(txt){
+      const cfg=parseInt((D.S&&D.S.popup_automin_seconds)||'',10);
+      const floor=(isNaN(cfg)?9:Math.max(9,cfg))*1000;
+      return Math.max(floor,Math.min(22000,5000+String(txt||'').length*45));
+    }
+    function replay(){pop.style.animation='none';void pop.offsetWidth;pop.style.animation='';}
+    function render(){
+      const th=THEMES.includes(String(pops[i][3]))?'pth-'+pops[i][3]:'pth-emerald-arch';
+      pop.className='apop '+th;
+      pop.innerHTML='<button class="apop-x" type="button" aria-label="Close">✕</button>'
+        +'<div class="apop-crest"><svg viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="rgba(255,255,255,.06)"/><path d="M32 15.5C25.2 21.1 21.8 25.5 21.8 30.3h20.4c0-4.8-3.4-9.2-10.2-14.8z" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M17.5 30v18M46.5 30v18M13 48h38" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></div>'
+        +'<div class="apop-title">'+esc(t('announcement'))+'</div><div class="apop-orn"></div>'
+        +'<div class="apop-body">'+esc(pops[i][0]).replace(/\n/g,'<br>')+'</div>'
+        +(pops.length>1?'<div class="apop-foot">'+(i+1)+' / '+pops.length+'</div>':'');
+      replay();
+    }
+    function arm(){clearTimeout(timer);timer=setTimeout(next,readMs(pops[i][0]));}
+    function next(){
+      clearTimeout(timer);
+      if(i+1<pops.length){i++;render();arm();}
+      else close();
+    }
+    function close(){
+      if(done)return;done=true;
+      clearTimeout(timer);
+      wrap.classList.remove('on');
+      wrap.removeEventListener('click',next);
+      document.removeEventListener('keydown',onKey);
+    }
+    function onKey(e){if(e.key==='Escape')next();}
+    render();
     wrap.classList.add('on');
-    let done=false;
-    const close=()=>{if(done)return;done=true;STO.s(key,iso);wrap.classList.remove('on')};
-    pop.querySelector('.apop-x').addEventListener('click',close);
-    wrap.addEventListener('click',function(e){if(e.target===wrap)close();});
-    const secs=Math.max(5,parseInt((D.S&&D.S.popup_automin_seconds)||'12',10)||12);
-    setTimeout(close,secs*1000);
+    wrap.addEventListener('click',next);   /* ONE listener — card, ✕, backdrop: click anywhere advances */
+    document.addEventListener('keydown',onKey);
+    arm();
   },1400);
 }
-
-/* ===== daily hadith — hadith-of-the-day, timeout-guarded, silent-fail ===== */
+let POPUP_LIVE=false;
+function toast(m,t){const e=document.getElementById('toast');e.innerHTML=m;e.className='on '+(t||'');clearTimeout(window._toastT);window._toastT=setTimeout(function(){e.className='';},2600);}
+/* ===== daily hadith — random each refresh · translation follows site language ===== */
 function getJSON(u,ms){
   return new Promise(function(res){
-    var c=new AbortController(),tid=setTimeout(function(){c.abort()},ms||6000);
+    var c=new AbortController(),tid=setTimeout(function(){c.abort()},ms||8000);
     fetch(u,{signal:c.signal}).then(function(r){return r.ok?r.json():null})
       .then(function(j){clearTimeout(tid);res(j)})
       .catch(function(){clearTimeout(tid);res(null)});
   });
 }
-function hadithShow(num,text){
-  $('#hTr').textContent=text;
-  $('#hRef').textContent='Sahih al-Bukhari · Hadith '+num;
-  $('#hadithBox').style.display='flex';
-  getJSON('https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/ara-bukhari/'+num+'.json').then(function(aj){
+var CUR_HN=0;
+function hadithEdition(lang){
+  return ({en:'eng-bukhari',ur:'urd-bukhari',bn:'ben-bukhari'})[lang]||'eng-bukhari';
+}
+function hadithLoadFor(num,lang){
+  var B='https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/';
+  function put(text){
+    if(!text)return false;
+    $('#hTr').textContent=text;
+    $('#hRef').textContent='Sahih al-Bukhari · Hadith '+num;
+    $('#hadithBox').style.display='flex';
+    return true;
+  }
+  return new Promise(function(done){
+    getJSON(B+hadithEdition(lang)+'/'+num+'.json').then(function(j){
+      var h=j&&j.hadiths&&j.hadiths[0];
+      if(h&&h.text){put(h.text);done();return;}
+      getJSON(B+'eng-bukhari/'+num+'.json').then(function(ej){
+        var h2=ej&&ej.hadiths&&ej.hadiths[0];
+        put((h2&&h2.text)||'');
+        done();
+      });
+    });
+  });
+}
+function loadHadith(){
+  var hn=Math.floor(Math.random()*7563)+1;
+  var last=STO.g('mqHn');
+  if(last&&+last===hn)hn=(hn%7563)+1;
+  STO.s('mqHn',String(hn));
+  CUR_HN=hn;
+  hadithLoadFor(hn,LANG);
+  getJSON('https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/ara-bukhari/'+hn+'.json').then(function(aj){
     var a=aj&&aj.hadiths&&aj.hadiths[0];
     $('#hAr').textContent=(a&&a.text)||'';
   });
 }
-function loadHadith(){
-  var y=new Date().getFullYear();
-  var day=Math.floor((Date.now()-new Date(y,0,1).getTime())/864e5);
-  var hn=(day%7563)+1; /* Sahih al-Bukhari has 7563 hadiths — one per day, rotating */
-  getJSON('https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/eng-bukhari/'+hn+'.json').then(function(j){
-    var h=j&&j.hadiths&&j.hadiths[0];
-    if(h&&h.text){hadithShow(hn,h.text);return}
-    getJSON('https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/eng-bukhari/sections/1.json').then(function(s){
-      var arr=s&&s.hadiths,h2=Array.isArray(arr)?arr[0]:(arr&&arr[Object.keys(arr)[0]]);
-      if(h2&&h2.text)hadithShow(h2.hadithnumber||1,h2.text);
-    });
-  });
-}
-
 /* ===== start ===== */
 if('scrollRestoration' in history)history.scrollRestoration='manual';
 window.scrollTo(0,0);
